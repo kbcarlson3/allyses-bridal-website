@@ -1,34 +1,36 @@
 import { Link } from 'react-router-dom';
-import { Scissors, Phone, Mail, Clock, AlertCircle, CheckCircle, Star } from 'lucide-react';
+import { Scissors, Phone, Mail, Clock, AlertCircle, CheckCircle, Star, Calendar } from 'lucide-react';
 
 export default function AlterationsPage() {
   return (
-    <div className="bg-white">
+    <div className="bg-bridal-ivory">
       {/* Hero Section */}
-      <section className="relative bg-bridal-cream py-20 px-4">
-        <div className="container mx-auto text-center">
-          <div className="inline-block p-4 bg-bridal-gold-100 rounded-full mb-6">
-            <Scissors className="h-12 w-12 text-bridal-gold-500" />
+      <section className="bg-white border-b border-bridal-taupe py-16 md:py-24 px-4">
+        <div className="container mx-auto text-center max-w-4xl">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-bridal-clay-100 text-bridal-clay-600 mb-6">
+            <Scissors className="h-10 w-10" />
           </div>
-          <h1 className="text-4xl md:text-6xl font-serif font-bold text-gray-900 mb-6">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-light text-bridal-charcoal-500 mb-6">
             Expert Dress Alterations
           </h1>
-          <p className="text-xl text-gray-700 mb-8 max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-bridal-charcoal-400 font-sans mb-8 max-w-3xl mx-auto leading-relaxed">
             Our professional seamstresses provide in-house alterations to ensure your dress fits perfectly for your special day.
           </p>
         </div>
       </section>
 
       {/* Important Notice */}
-      <section className="py-12 px-4 bg-bridal-pink-50 border-y border-bridal-pink-200">
+      <section className="py-12 px-4 bg-bridal-clay-50 border-y border-bridal-clay-200">
         <div className="container mx-auto max-w-4xl">
           <div className="flex items-start gap-4">
-            <AlertCircle className="h-6 w-6 text-bridal-pink-500 flex-shrink-0 mt-1" />
+            <div className="flex-shrink-0 w-10 h-10 bg-bridal-clay-500 text-white rounded-full flex items-center justify-center">
+              <AlertCircle className="h-5 w-5" />
+            </div>
             <div>
-              <h2 className="text-xl font-serif font-bold text-gray-900 mb-2">
+              <h2 className="text-xl font-display text-bridal-charcoal-500 mb-2">
                 Currently Scheduling Dresses from Allyse's Only
               </h2>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-bridal-charcoal-400 font-sans leading-relaxed">
                 At this time, we are only accepting alterations for dresses purchased from Allyse's Bridal and Formal.
                 This allows us to provide the best possible service and maintain our commitment to quality craftsmanship.
               </p>
@@ -38,127 +40,99 @@ export default function AlterationsPage() {
       </section>
 
       {/* Our Expertise Section */}
-      <section className="py-20 px-4">
+      <section className="py-20 md:py-28 px-4">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="section-title">Why Choose Our Alterations Service?</h2>
+          <div className="text-center mb-16">
+            <p className="section-subtitle text-bridal-clay-600 mb-4">Our Commitment</p>
+            <h2 className="section-title">Why Choose Our Alterations Service?</h2>
+          </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <div className="card text-center">
-              <div className="inline-block p-4 bg-bridal-gold-100 rounded-full mb-4">
-                <Star className="h-8 w-8 text-bridal-gold-500" />
+          <div className="grid md:grid-cols-3 gap-8 mb-20">
+            <div className="bg-white p-8 text-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-bridal-clay-100 text-bridal-clay-600 mb-6">
+                <Star className="h-8 w-8" />
               </div>
-              <h3 className="text-xl font-serif font-bold mb-3">Expert Seamstresses</h3>
-              <p className="text-gray-600">
+              <h3 className="text-2xl font-display text-bridal-charcoal-500 mb-3">Expert Seamstresses</h3>
+              <p className="text-bridal-charcoal-400 font-sans text-sm leading-relaxed">
                 Our skilled team has years of experience working with bridal and formal wear, ensuring precision and care with every stitch.
               </p>
             </div>
 
-            <div className="card text-center">
-              <div className="inline-block p-4 bg-bridal-gold-100 rounded-full mb-4">
-                <CheckCircle className="h-8 w-8 text-bridal-gold-500" />
+            <div className="bg-white p-8 text-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-bridal-clay-100 text-bridal-clay-600 mb-6">
+                <CheckCircle className="h-8 w-8" />
               </div>
-              <h3 className="text-xl font-serif font-bold mb-3">Perfect Fit Guaranteed</h3>
-              <p className="text-gray-600">
+              <h3 className="text-2xl font-display text-bridal-charcoal-500 mb-3">Perfect Fit Guaranteed</h3>
+              <p className="text-bridal-charcoal-400 font-sans text-sm leading-relaxed">
                 We work meticulously to ensure your dress fits flawlessly, enhancing your natural beauty and comfort.
               </p>
             </div>
 
-            <div className="card text-center">
-              <div className="inline-block p-4 bg-bridal-gold-100 rounded-full mb-4">
-                <Clock className="h-8 w-8 text-bridal-gold-500" />
+            <div className="bg-white p-8 text-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-bridal-clay-100 text-bridal-clay-600 mb-6">
+                <Clock className="h-8 w-8" />
               </div>
-              <h3 className="text-xl font-serif font-bold mb-3">Timely Service</h3>
-              <p className="text-gray-600">
+              <h3 className="text-2xl font-display text-bridal-charcoal-500 mb-3">Timely Service</h3>
+              <p className="text-bridal-charcoal-400 font-sans text-sm leading-relaxed">
                 We understand the importance of deadlines and work diligently to complete your alterations on schedule.
               </p>
             </div>
           </div>
 
           {/* Services Offered */}
-          <div className="bg-gray-50 rounded-lg p-8 md:p-12">
-            <h3 className="text-2xl font-serif font-bold text-gray-900 mb-6 text-center">
+          <div className="bg-white p-10 md:p-12 shadow-sm">
+            <h3 className="text-3xl md:text-4xl font-display font-light text-bridal-charcoal-500 mb-10 text-center">
               Alteration Services We Provide
             </h3>
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              <div className="flex items-start gap-3">
-                <CheckCircle className="h-5 w-5 text-bridal-gold-500 flex-shrink-0 mt-1" />
-                <div>
-                  <h4 className="font-bold text-gray-900 mb-1">Hemming</h4>
-                  <p className="text-sm text-gray-600">Adjusting the length to your perfect height</p>
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              {[
+                { title: 'Hemming', desc: 'Adjusting the length to your perfect height' },
+                { title: 'Taking In/Letting Out', desc: 'Adjusting the bodice and waistline for a perfect fit' },
+                { title: 'Bustle Addition', desc: 'Creating elegant bustles for train management' },
+                { title: 'Strap Adjustments', desc: 'Modifying or adding straps for comfort and style' },
+                { title: 'Neckline Modifications', desc: 'Adjusting necklines for modesty or style preferences' },
+                { title: 'Custom Adjustments', desc: 'Additional modifications tailored to your needs' },
+              ].map((service, idx) => (
+                <div key={idx} className="flex items-start gap-4">
+                  <CheckCircle className="h-5 w-5 text-bridal-clay-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-sans font-semibold text-bridal-charcoal-500 mb-1">{service.title}</h4>
+                    <p className="text-sm text-bridal-charcoal-400 font-sans">{service.desc}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle className="h-5 w-5 text-bridal-gold-500 flex-shrink-0 mt-1" />
-                <div>
-                  <h4 className="font-bold text-gray-900 mb-1">Taking In/Letting Out</h4>
-                  <p className="text-sm text-gray-600">Adjusting the bodice and waistline for a perfect fit</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle className="h-5 w-5 text-bridal-gold-500 flex-shrink-0 mt-1" />
-                <div>
-                  <h4 className="font-bold text-gray-900 mb-1">Bustle Addition</h4>
-                  <p className="text-sm text-gray-600">Creating elegant bustles for train management</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle className="h-5 w-5 text-bridal-gold-500 flex-shrink-0 mt-1" />
-                <div>
-                  <h4 className="font-bold text-gray-900 mb-1">Strap Adjustments</h4>
-                  <p className="text-sm text-gray-600">Modifying or adding straps for comfort and style</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle className="h-5 w-5 text-bridal-gold-500 flex-shrink-0 mt-1" />
-                <div>
-                  <h4 className="font-bold text-gray-900 mb-1">Neckline Modifications</h4>
-                  <p className="text-sm text-gray-600">Adjusting necklines for modesty or style preferences</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle className="h-5 w-5 text-bridal-gold-500 flex-shrink-0 mt-1" />
-                <div>
-                  <h4 className="font-bold text-gray-900 mb-1">Custom Adjustments</h4>
-                  <p className="text-sm text-gray-600">Additional modifications tailored to your needs</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* Cancellation Policy */}
-      <section className="py-20 px-4 bg-bridal-cream">
+      <section className="py-20 md:py-28 px-4 bg-white">
         <div className="container mx-auto max-w-4xl">
-          <div className="bg-white rounded-lg shadow-lg p-8 md:p-12">
-            <h2 className="text-3xl font-serif font-bold text-gray-900 mb-6 text-center">
+          <div className="bg-bridal-cream p-10 md:p-12">
+            <h2 className="text-3xl md:text-4xl font-display font-light text-bridal-charcoal-500 mb-8 text-center">
               Cancellation Policy
             </h2>
-            <div className="space-y-4 text-gray-700 leading-relaxed">
+            <div className="space-y-6 text-bridal-charcoal-400 font-sans leading-relaxed">
               <p>
                 We understand that circumstances can change, but our alteration appointments are carefully scheduled to ensure quality time with each client.
                 To maintain the highest level of service for all our customers, we have implemented the following cancellation policy:
               </p>
 
-              <div className="bg-gray-50 rounded-lg p-6 my-6">
-                <h3 className="font-bold text-gray-900 mb-3 text-lg">Important Guidelines:</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-start gap-3">
-                    <span className="text-bridal-gold-500 font-bold">•</span>
-                    <span><strong>48-Hour Notice Required:</strong> Appointments must be cancelled or rescheduled at least 48 hours in advance.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-bridal-gold-500 font-bold">•</span>
-                    <span><strong>Late Cancellations:</strong> Cancellations made with less than 48 hours notice may be subject to a cancellation fee.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-bridal-gold-500 font-bold">•</span>
-                    <span><strong>No-Show Policy:</strong> No-shows will be charged a fee and may affect future booking privileges.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-bridal-gold-500 font-bold">•</span>
-                    <span><strong>Rescheduling:</strong> We're happy to reschedule your appointment with proper notice. Please call us as soon as possible.</span>
-                  </li>
+              <div className="bg-white border-2 border-bridal-clay-200 p-8 my-8">
+                <h3 className="font-sans font-semibold text-bridal-charcoal-500 mb-6 text-lg">Important Guidelines:</h3>
+                <ul className="space-y-4">
+                  {[
+                    { label: '48-Hour Notice Required', text: 'Appointments must be cancelled or rescheduled at least 48 hours in advance.' },
+                    { label: 'Late Cancellations', text: 'Cancellations made with less than 48 hours notice may be subject to a cancellation fee.' },
+                    { label: 'No-Show Policy', text: 'No-shows will be charged a fee and may affect future booking privileges.' },
+                    { label: 'Rescheduling', text: "We're happy to reschedule your appointment with proper notice. Please call us as soon as possible." },
+                  ].map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <span className="w-1.5 h-1.5 bg-bridal-clay-500 rounded-full mt-2.5 flex-shrink-0" />
+                      <span><strong className="text-bridal-charcoal-500">{item.label}:</strong> {item.text}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
@@ -172,101 +146,86 @@ export default function AlterationsPage() {
       </section>
 
       {/* The Process */}
-      <section className="py-20 px-4">
+      <section className="py-20 md:py-28 px-4">
         <div className="container mx-auto max-w-4xl">
-          <h2 className="section-title">The Alterations Process</h2>
+          <div className="text-center mb-16">
+            <p className="section-subtitle text-bridal-clay-600 mb-4">How It Works</p>
+            <h2 className="section-title">The Alterations Process</h2>
+          </div>
 
-          <div className="space-y-8">
-            <div className="flex gap-6">
-              <div className="flex-shrink-0 w-12 h-12 bg-bridal-gold-500 text-white rounded-full flex items-center justify-center font-bold text-xl">
-                1
+          <div className="space-y-12">
+            {[
+              {
+                num: '1',
+                title: 'Initial Fitting',
+                desc: "During your first appointment, we'll assess your dress and discuss all necessary alterations. Our seamstress will take precise measurements and provide an estimate for the work.",
+              },
+              {
+                num: '2',
+                title: 'Alteration Work',
+                desc: 'Our expert seamstresses will carefully work on your dress, making each adjustment with precision and care. We use professional techniques to ensure the integrity of your gown.',
+              },
+              {
+                num: '3',
+                title: 'Final Fitting',
+                desc: "We'll schedule a final fitting to ensure everything is perfect. Any minor adjustments needed will be noted and completed promptly to guarantee your complete satisfaction.",
+              },
+              {
+                num: '4',
+                title: 'Pick Up & Enjoy',
+                desc: "Once everything is perfect, you'll pick up your beautifully altered dress, ready to wear on your special day with confidence and comfort.",
+              },
+            ].map((step, idx) => (
+              <div key={idx} className="flex gap-6">
+                <div className="flex-shrink-0 w-14 h-14 bg-bridal-clay-500 text-white flex items-center justify-center font-display text-2xl">
+                  {step.num}
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-display text-bridal-charcoal-500 mb-3">{step.title}</h3>
+                  <p className="text-bridal-charcoal-400 font-sans leading-relaxed">{step.desc}</p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Initial Fitting</h3>
-                <p className="text-gray-700">
-                  During your first appointment, we'll assess your dress and discuss all necessary alterations.
-                  Our seamstress will take precise measurements and provide an estimate for the work.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-6">
-              <div className="flex-shrink-0 w-12 h-12 bg-bridal-gold-500 text-white rounded-full flex items-center justify-center font-bold text-xl">
-                2
-              </div>
-              <div>
-                <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Alteration Work</h3>
-                <p className="text-gray-700">
-                  Our expert seamstresses will carefully work on your dress, making each adjustment with precision and care.
-                  We use professional techniques to ensure the integrity of your gown.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-6">
-              <div className="flex-shrink-0 w-12 h-12 bg-bridal-gold-500 text-white rounded-full flex items-center justify-center font-bold text-xl">
-                3
-              </div>
-              <div>
-                <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Final Fitting</h3>
-                <p className="text-gray-700">
-                  We'll schedule a final fitting to ensure everything is perfect. Any minor adjustments needed will be noted
-                  and completed promptly to guarantee your complete satisfaction.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-6">
-              <div className="flex-shrink-0 w-12 h-12 bg-bridal-gold-500 text-white rounded-full flex items-center justify-center font-bold text-xl">
-                4
-              </div>
-              <div>
-                <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Pick Up & Enjoy</h3>
-                <p className="text-gray-700">
-                  Once everything is perfect, you'll pick up your beautifully altered dress, ready to wear on your special day
-                  with confidence and comfort.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gray-900 text-white">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">
+      <section className="py-24 px-4 bg-bridal-charcoal-500 text-white">
+        <div className="container mx-auto text-center max-w-3xl">
+          <h2 className="text-3xl md:text-4xl font-display font-light mb-6">
             Ready to Schedule Your Alteration?
           </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-white/80 font-sans mb-10 max-w-2xl mx-auto">
             Contact us today to book your alteration appointment. Our team is ready to ensure your dress fits perfectly.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto mb-12">
             <Link
               to="/schedule-appointment"
-              className="px-8 py-4 bg-bridal-gold-500 text-white font-medium rounded-md hover:bg-bridal-gold-600 transition-colors duration-200"
+              className="btn-primary bg-white text-bridal-charcoal-500 hover:bg-bridal-clay-500 hover:text-white flex-1 inline-flex items-center justify-center gap-2"
             >
-              Schedule Appointment
+              <Calendar className="h-5 w-5" />
+              <span>Schedule Appointment</span>
             </Link>
             <a
               href="tel:8012240059"
-              className="px-8 py-4 bg-white text-gray-900 font-medium rounded-md hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center gap-2"
+              className="btn-secondary border-white text-white hover:bg-white hover:text-bridal-charcoal-500 flex-1 flex items-center justify-center gap-2"
             >
               <Phone className="h-5 w-5" />
-              (801) 224-0059
+              <span>(801) 224-0059</span>
             </a>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-gray-700">
-            <div className="flex flex-col md:flex-row justify-center items-center gap-6 text-gray-300">
+          <div className="pt-8 border-t border-white/20">
+            <div className="flex flex-col md:flex-row justify-center items-center gap-6 text-white/60">
               <div className="flex items-center gap-2">
                 <Phone className="h-5 w-5" />
-                <span>(801) 224-0059</span>
+                <span className="font-sans text-sm">(801) 224-0059</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-5 w-5" />
-                <a href="mailto:info@allyses.com" className="hover:text-white">
-                  info@allyses.com
+                <a href="mailto:Allysesbridalandformal@gmail.com" className="hover:text-white font-sans text-sm transition-colors">
+                  Allysesbridalandformal@gmail.com
                 </a>
               </div>
             </div>
@@ -275,9 +234,9 @@ export default function AlterationsPage() {
       </section>
 
       {/* Back Link */}
-      <section className="py-8 px-4 bg-white">
+      <section className="py-8 px-4">
         <div className="container mx-auto text-center">
-          <Link to="/" className="text-bridal-gold-500 hover:text-bridal-gold-600 font-medium">
+          <Link to="/" className="text-bridal-clay-600 hover:text-bridal-clay-700 font-sans font-medium link-underline">
             ← Back to Home
           </Link>
         </div>

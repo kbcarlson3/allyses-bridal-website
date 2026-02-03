@@ -4,37 +4,109 @@
 
 @layer base {
   body {
-    @apply font-sans text-gray-900 bg-white;
+    @apply font-body bg-white antialiased;
+    color: #0A0A0A; /* editorial-black */
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif;
+    @apply font-normal;
+    font-family: 'Playfair Display', 'Bodoni Moda', 'Cormorant Garamond', serif;
+  }
+
+  /* Smooth scrolling with luxury timing */
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  /* Elegant text selection */
+  ::selection {
+    background-color: #FFE799; /* gold-200 */
+    color: #0A0A0A; /* editorial-black */
+  }
+
+  /* Luxury cursor */
+  * {
+    cursor: default;
+  }
+
+  a, button, [role="button"] {
+    cursor: pointer;
+  }
+
+  /* Refined focus states */
+  *:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #D4AF37; /* gold-500 */
+  }
+
+  /* Grain texture overlay for depth */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    opacity: 0.015;
+    z-index: 9999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   }
 }
 
 @layer components {
-  .btn-primary {
-    @apply px-6 py-3 bg-bridal-sage-500 text-white font-medium rounded-sm hover:bg-bridal-sage-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  /* Keep only minimal utility classes without using @apply on custom colors */
+
+  /* Link with centered underline animation */
+  .link-underline {
+    @apply relative inline-block;
   }
 
-  .btn-secondary {
-    @apply px-6 py-3 bg-transparent text-black font-medium rounded-sm border border-black hover:bg-gray-50 transition-colors duration-200;
+  .link-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-1/2 w-0 h-px transition-all duration-500 -translate-x-1/2;
+    background-color: #D4AF37; /* gold-500 */
   }
 
-  .btn-danger {
-    @apply px-4 py-2 bg-red-500 text-white font-medium rounded-sm hover:bg-red-600 transition-colors duration-200;
+  .link-underline:hover::after {
+    @apply w-full;
   }
 
-  .input-field {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-sm focus:ring-2 focus:ring-bridal-sage-500 focus:border-transparent outline-none transition-all duration-200;
+  /* Full Bleed Section */
+  .full-bleed {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
   }
 
-  .card {
-    @apply bg-white rounded-sm shadow-md p-6;
+  /* Magazine Grid */
+  .magazine-grid {
+    @apply grid gap-8 md:gap-12;
+    grid-template-columns: repeat(12, 1fr);
   }
 
-  .section-title {
-    @apply text-3xl md:text-4xl font-serif font-normal text-center mb-12 text-gray-900;
+  /* Editorial Divider */
+  .editorial-divider {
+    @apply h-px my-16 md:my-24;
+    background: linear-gradient(to right, transparent, #D4AF37, transparent);
+  }
+
+  /* Custom Scrollbar - Gold Accent */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #F8F7F5; /* editorial-pearl */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #D4AF37; /* gold-500 */
+    border-radius: 9999px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #B8962E; /* gold-600 */
   }
 }
 
@@ -43,18 +115,24 @@
     text-wrap: balance;
   }
 
-  @keyframes slide-in {
-    from {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
+  /* Animation Delays */
+  .delay-100 {
+    animation-delay: 100ms;
   }
 
-  .animate-slide-in {
-    animation: slide-in 0.3s ease-out;
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .delay-500 {
+    animation-delay: 500ms;
   }
 }

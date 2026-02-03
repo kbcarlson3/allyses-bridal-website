@@ -1,425 +1,428 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Facebook, Send } from 'lucide-react';
+import { Instagram, ArrowRight, Calendar, Scissors, Sparkles } from 'lucide-react';
 import api from '../../services/api';
+import { useCart } from '../../context/CartContext';
 import type { GalleryImage, Dress, ApiResponse } from '@shared/types';
 
 export default function HomePage() {
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [dresses, setDresses] = useState<Dress[]>([]);
-  const [settings, setSettings] = useState<Record<string, string>>({});
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    subject: '',
-    message: ''
-  });
-  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const { addToCart } = useCart();
 
   useEffect(() => {
     loadData();
   }, []);
 
-  // Auto-advance hero carousel every 4 seconds
+  // Auto-advance hero carousel every 5 seconds
   useEffect(() => {
-    const heroImages = galleryImages.slice(6, 16); // Hero gallery images (indices 6-15)
+    const heroImages = galleryImages.slice(6, 16);
     if (heroImages.length === 0) return;
 
     const interval = setInterval(() => {
       setCurrentHeroImage((prev) => (prev + 1) % heroImages.length);
-    }, 4000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [galleryImages]);
 
   const loadData = async () => {
     try {
-      const [galleryRes, dressesRes, settingsRes] = await Promise.all([
+      const [galleryRes, dressesRes] = await Promise.all([
         api.get<ApiResponse<GalleryImage[]>>('/gallery'),
         api.get<ApiResponse<Dress[]>>('/dresses'),
-        api.get<ApiResponse<Record<string, string>>>('/settings')
       ]);
 
       if (galleryRes.data.success && galleryRes.data.data) {
         setGalleryImages(galleryRes.data.data);
       }
       if (dressesRes.data.success && dressesRes.data.data) {
-        setDresses(dressesRes.data.data.slice(0, 12));
-      }
-      if (settingsRes.data.success && settingsRes.data.data) {
-        setSettings(settingsRes.data.data);
+        setDresses(dressesRes.data.data.slice(0, 8));
       }
     } catch (error) {
       console.error('Error loading data:', error);
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormStatus('sending');
-
-    try {
-      await api.post('/inquiries', {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        message: `${formData.subject}\n\n${formData.message}\n\nAddress: ${formData.address}`,
-        inquiry_type: 'general'
-      });
-
-      setFormStatus('success');
-      setFormData({ name: '', email: '', phone: '', address: '', subject: '', message: '' });
-      setTimeout(() => setFormStatus('idle'), 3000);
-    } catch (error) {
-      setFormStatus('error');
-      setTimeout(() => setFormStatus('idle'), 3000);
-    }
-  };
+  const heroImages = galleryImages.slice(6, 16);
 
   return (
-    <div className="bg-white">
-      {/* Hero Section */}
-      <section className="relative bg-white py-16 md:py-24 px-4">
-        <div className="container mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-serif text-gray-900 mb-4">
-            WELCOME TO<br />
-            ALLYSE'S BRIDAL
-          </h1>
-          <p className="text-lg md:text-xl text-gray-700 mb-6 max-w-2xl mx-auto">
-            First in Fashion, Elegant by Design, Classy by Choice
-          </p>
-          <p className="text-base text-gray-600 mb-8 max-w-3xl mx-auto">
-            Allyse's Bridal and Formal offers the most impressive collection of wedding dresses and formal wear. Visit our store today to find the wedding dress of your dreams.
-          </p>
-          {/* Hero Gallery Carousel */}
-          <div className="max-w-4xl mx-auto aspect-video bg-gray-100 overflow-hidden relative">
-            {galleryImages.slice(6, 16).length > 0 ? (
-              <>
-                <img
-                  src={`/uploads/${galleryImages.slice(6, 16)[currentHeroImage]?.image_path}`}
-                  alt="Bridal collection"
-                  className="w-full h-full object-cover transition-opacity duration-500"
-                />
-                {/* Carousel dots */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-                  {galleryImages.slice(6, 16).map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentHeroImage(index)}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        index === currentHeroImage ? 'bg-white w-6' : 'bg-white/50'
-                      }`}
-                      aria-label={`Go to image ${index + 1}`}
-                    />
-                  ))}
+    <div className="bg-bridal-ivory">
+      {/* Hero Section - Full Screen Editorial */}
+      <section className="relative h-[85vh] min-h-[600px] bg-bridal-charcoal-500 overflow-hidden">
+        {/* Background Image Carousel */}
+        <div className="absolute inset-0">
+          {heroImages.length > 0 ? (
+            <>
+              {heroImages.map((image, index) => (
+                <div
+                  key={image.id}
+                  className={`absolute inset-0 transition-opacity duration-1000 ${
+                    index === currentHeroImage ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
+                  <img
+                    src={`/uploads/${image.image_path}`}
+                    alt="Bridal collection"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-bridal-charcoal-900/40 via-bridal-charcoal-900/30 to-bridal-charcoal-900/60" />
                 </div>
-              </>
-            ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <p className="text-gray-400">Loading gallery...</p>
-              </div>
-            )}
+              ))}
+            </>
+          ) : (
+            <div className="w-full h-full bg-bridal-charcoal-700" />
+          )}
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative h-full container mx-auto px-4 lg:px-8 flex items-center">
+          <div className="max-w-3xl animate-fade-in">
+            <p className="section-subtitle text-bridal-clay-300 mb-6 animate-slide-up">
+              First in Fashion, Elegant by Design
+            </p>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-light text-white mb-8 leading-none animate-slide-up delay-100">
+              Discover Your<br />
+              Perfect Dress
+            </h1>
+            <p className="text-lg md:text-xl text-white/90 mb-10 max-w-xl font-sans animate-slide-up delay-200">
+              Utah's premier destination for modest wedding dresses and formal wear.
+              Experience timeless elegance since 2000.
+            </p>
+            <div className="flex flex-wrap gap-4 animate-slide-up delay-300">
+              <Link to="/shop" className="btn-primary group">
+                <span className="flex items-center gap-2">
+                  Browse Collection
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Link>
+              <Link to="/schedule-appointment" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-bridal-charcoal-500">
+                Book Appointment
+              </Link>
+            </div>
           </div>
         </div>
+
+        {/* Carousel Indicators */}
+        {heroImages.length > 1 && (
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+            {heroImages.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentHeroImage(index)}
+                className={`h-1 rounded-full transition-all ${
+                  index === currentHeroImage
+                    ? 'bg-white w-12'
+                    : 'bg-white/40 w-8 hover:bg-white/60'
+                }`}
+                aria-label={`Go to image ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
-      {/* Our Services Section */}
-      <section className="py-16 md:py-20 px-4">
-        <div className="container mx-auto">
-          <h2 className="section-title">OUR SERVICES</h2>
-          <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-            {/* Wedding Dress Consultation */}
-            <div className="text-center">
-              <div className="w-48 h-48 md:w-56 md:h-56 mx-auto rounded-full overflow-hidden mb-6 bg-gray-100">
-                {galleryImages[0] ? (
+      {/* Services Section - Asymmetric Layout */}
+      <section className="py-24 md:py-32 px-4">
+        <div className="container mx-auto max-w-7xl">
+          <div className="text-center mb-16">
+            <p className="section-subtitle text-bridal-clay-600 mb-4">What We Offer</p>
+            <h2 className="section-title">Our Services</h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+            {/* Consultations Card */}
+            <div className="group card-elevated bg-white p-8 lg:p-12 hover:bg-bridal-cream transition-colors duration-300">
+              <div className="flex items-start gap-6 mb-6">
+                <div className="p-4 bg-bridal-clay-100 text-bridal-clay-600">
+                  <Sparkles className="w-8 h-8" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl md:text-3xl font-display text-bridal-charcoal-500 mb-2">
+                    Bridal Consultations
+                  </h3>
+                  <p className="text-bridal-charcoal-400 font-sans text-sm mb-4">
+                    Personalized one-on-one sessions
+                  </p>
+                </div>
+              </div>
+              {galleryImages[0] && (
+                <div className="aspect-[4/3] overflow-hidden mb-6">
                   <img
                     src={`/uploads/${galleryImages[0].image_path}`}
                     alt="Wedding Dress Consultation"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <p className="text-gray-400">Image</p>
-                  </div>
-                )}
-              </div>
-              <h3 className="text-2xl font-serif text-gray-900 mb-2">WEDDING DRESS CONSULTATION</h3>
-              <p className="text-gray-700 mb-4">Find The Perfect Dress</p>
+                </div>
+              )}
+              <p className="text-bridal-charcoal-400 font-sans text-sm leading-relaxed mb-6">
+                Experience our extensive collection of modest wedding gowns with expert guidance.
+                Find the perfect dress that reflects your unique style and vision.
+              </p>
               <Link
                 to="/schedule-appointment"
-                className="inline-block px-8 py-3 border border-black text-black bg-transparent hover:bg-gray-50 transition text-sm"
+                className="inline-flex items-center gap-2 text-bridal-clay-600 font-sans font-medium text-sm link-underline"
               >
-                Schedule Now
+                Schedule Consultation
+                <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
-            {/* Alterations */}
-            <div className="text-center">
-              <div className="w-48 h-48 md:w-56 md:h-56 mx-auto rounded-full overflow-hidden mb-6 bg-gray-100">
-                {galleryImages[1] ? (
+            {/* Alterations Card */}
+            <div className="group card-elevated bg-white p-8 lg:p-12 hover:bg-bridal-cream transition-colors duration-300">
+              <div className="flex items-start gap-6 mb-6">
+                <div className="p-4 bg-bridal-clay-100 text-bridal-clay-600">
+                  <Scissors className="w-8 h-8" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl md:text-3xl font-display text-bridal-charcoal-500 mb-2">
+                    Expert Alterations
+                  </h3>
+                  <p className="text-bridal-charcoal-400 font-sans text-sm mb-4">
+                    In-house customization & tailoring
+                  </p>
+                </div>
+              </div>
+              {galleryImages[1] && (
+                <div className="aspect-[4/3] overflow-hidden mb-6">
                   <img
                     src={`/uploads/${galleryImages[1].image_path}`}
                     alt="Alterations"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <p className="text-gray-400">Image</p>
-                  </div>
-                )}
-              </div>
-              <h3 className="text-2xl font-serif text-gray-900 mb-2">ALTERATIONS</h3>
-              <p className="text-gray-700 mb-4">Customize Your Style</p>
+                </div>
+              )}
+              <p className="text-bridal-charcoal-400 font-sans text-sm leading-relaxed mb-6">
+                Our skilled team provides meticulous alterations and custom modifications
+                to ensure your dress fits perfectly.
+              </p>
               <Link
-                to="/schedule-appointment"
-                className="inline-block px-8 py-3 border border-black text-black bg-transparent hover:bg-gray-50 transition text-sm"
+                to="/service-page/dress-alterations"
+                className="inline-flex items-center gap-2 text-bridal-clay-600 font-sans font-medium text-sm link-underline"
               >
-                Schedule Now
+                Learn More
+                <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Our Products Section */}
-      <section className="py-16 md:py-20 px-4 bg-white">
-        <div className="container mx-auto">
-          <h2 className="section-title">OUR PRODUCTS</h2>
+      {/* Featured Dresses - Editorial Grid */}
+      <section className="py-24 md:py-32 px-4 bg-white">
+        <div className="container mx-auto max-w-7xl">
+          <div className="flex items-end justify-between mb-12">
+            <div>
+              <p className="section-subtitle text-bridal-clay-600 mb-4">Latest Collection</p>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-bridal-charcoal-500">
+                Featured Dresses
+              </h2>
+            </div>
+            <Link
+              to="/shop"
+              className="hidden md:inline-flex items-center gap-2 text-bridal-charcoal-500 font-sans font-medium text-sm hover:text-bridal-clay-600 transition-colors link-underline"
+            >
+              View All
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {dresses.map((dress) => (
+            {dresses.map((dress, index) => (
               <Link
                 key={dress.id}
-                to={`/product/${dress.name.toLowerCase().replace(/\s+/g, '-')}`}
-                className="group"
+                to={`/product/${dress.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                className="product-card group"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-3">
+                <div className="relative aspect-[3/4] bg-bridal-cream overflow-hidden">
                   {dress.primary_image ? (
                     <img
                       src={`/uploads/${dress.primary_image.image_path}`}
                       alt={dress.name}
-                      className="w-full h-full object-cover"
+                      className="product-card-image"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <p className="text-gray-400">No Image</p>
+                    <div className="w-full h-full flex items-center justify-center text-bridal-charcoal-300">
+                      <p>No Image</p>
                     </div>
                   )}
+                  <div className="product-card-overlay" />
+
                   {dress.is_new_arrival && (
-                    <div className="absolute top-2 left-2 bg-white/90 px-3 py-1 text-xs text-gray-700">
-                      New Arrival
+                    <div className="absolute top-4 left-4 bg-bridal-clay-500 text-white px-3 py-1 text-xs font-sans font-medium tracking-widest uppercase">
+                      New
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                    <button className="opacity-0 group-hover:opacity-100 transition-opacity bg-white px-4 py-2 text-sm">
-                      Quick View
-                    </button>
-                  </div>
+
+                  {/* Quick Add Button */}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      addToCart(dress);
+                    }}
+                    className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 btn-primary text-xs py-2 px-6"
+                  >
+                    <span>Add to Cart</span>
+                  </button>
                 </div>
-                <h3 className="text-base font-normal text-gray-900 mb-1">{dress.name}</h3>
-                <p className="text-sm text-gray-600">
-                  <span className="text-xs">Price</span> ${dress.price.toFixed(2)}
-                </p>
+
+                <div className="pt-4">
+                  <h3 className="font-display text-lg text-bridal-charcoal-500 mb-1 group-hover:text-bridal-clay-600 transition-colors">
+                    {dress.name}
+                  </h3>
+                  <p className="text-bridal-clay-600 font-sans font-medium text-sm">
+                    {dress.price}
+                  </p>
+                </div>
               </Link>
             ))}
+          </div>
+
+          <div className="text-center mt-12 md:hidden">
+            <Link to="/shop" className="btn-secondary">
+              View All Dresses
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Our Story Section */}
-      <section className="py-16 md:py-20 px-4 bg-white">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center max-w-6xl mx-auto">
+      {/* Our Story - Asymmetric Split */}
+      <section className="py-24 md:py-32 px-4">
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Image */}
-            <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
+            <div className="order-2 lg:order-1 relative">
               {galleryImages[2] ? (
-                <img
-                  src={`/uploads/${galleryImages[2].image_path}`}
-                  alt="Our Story"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <p className="text-gray-400">Image</p>
+                <div className="relative">
+                  <div className="aspect-[4/5] overflow-hidden">
+                    <img
+                      src={`/uploads/${galleryImages[2].image_path}`}
+                      alt="Our Story"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  {/* Decorative Element */}
+                  <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-bridal-clay-200 -z-10 hidden md:block" />
                 </div>
+              ) : (
+                <div className="aspect-[4/5] bg-bridal-cream" />
               )}
             </div>
 
             {/* Text */}
-            <div>
-              <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-6">OUR STORY</h2>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                Our Wedding Shop was established in 2000 with the purpose of selling the latest in modest formal wear. Owned and operated by Janelle Carlson, she and our design team offer unique innovative designs that are updated yearly. Allyse's Bridal and Formal has a large selection of designs and sizes at a fair price. Customers come to us for our unique designs, our large in-stock inventory, our in-house customizations and alterations, and our great customer service.
-              </p>
-              <Link
-                to="/schedule-appointment"
-                className="inline-block px-8 py-3 bg-bridal-sage-500 text-white hover:bg-bridal-sage-600 transition text-sm"
-              >
-                Get in Touch
+            <div className="order-1 lg:order-2">
+              <p className="section-subtitle text-bridal-clay-600 mb-4">Since 2000</p>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-bridal-charcoal-500 mb-6 leading-tight">
+                Our Story
+              </h2>
+              <div className="space-y-4 text-bridal-charcoal-400 font-sans leading-relaxed mb-8">
+                <p>
+                  Established in 2000, Allyse's Bridal and Formal was founded with a vision to provide
+                  the latest in modest formal wear. Owned and operated by Janelle Carlson, our boutique
+                  has become Utah's premier destination for brides seeking elegance and sophistication.
+                </p>
+                <p>
+                  Our design team offers unique, innovative designs that are updated yearly, ensuring you
+                  have access to the latest trends while maintaining timeless elegance. We pride ourselves
+                  on our extensive in-stock inventory, in-house customizations, and exceptional customer service.
+                </p>
+              </div>
+              <Link to="/schedule-appointment" className="btn-outline-clay">
+                Schedule Your Visit
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Instagram Feed Section */}
-      <section className="py-16 md:py-20 px-4 bg-white">
-        <div className="container mx-auto">
-          <h2 className="section-title">Check out our Instagram!</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      {/* Instagram Feed */}
+      <section className="py-24 md:py-32 px-4 bg-bridal-charcoal-500 text-white">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <p className="text-sm md:text-base font-sans font-light text-bridal-clay-300 tracking-widest uppercase mb-4">
+              Follow Our Journey
+            </p>
+            <h2 className="text-4xl md:text-5xl font-display font-light mb-6">
+              @allyses_bridal
+            </h2>
+            <a
+              href="https://www.instagram.com/allyses_bridal/?hl=en"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-bridal-clay-300 hover:text-white transition-colors"
+            >
+              <Instagram className="h-5 w-5" />
+              <span className="font-sans text-sm">Follow us on Instagram</span>
+            </a>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {galleryImages.slice(3, 6).map((image) => (
               <a
                 key={image.id}
                 href="https://www.instagram.com/allyses_bridal/?hl=en"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block aspect-square bg-gray-100 overflow-hidden hover:opacity-90 transition"
+                className="block aspect-square overflow-hidden group"
               >
                 <img
                   src={`/uploads/${image.image_path}`}
                   alt={image.caption || 'Instagram post'}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </a>
             ))}
           </div>
-          <div className="text-center mt-8">
-            <a
-              href="https://www.instagram.com/allyses_bridal/?hl=en"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900 transition"
-            >
-              <Instagram className="h-5 w-5" />
-              <span>@allyses_bridal</span>
-            </a>
-          </div>
         </div>
       </section>
 
-      {/* Store Hours Section */}
-      <section className="py-16 md:py-20 px-4 bg-gray-50">
-        <div className="container mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-8">STORE HOURS</h2>
-          <div className="max-w-md mx-auto space-y-2">
-            <p className="text-lg text-gray-800">Mon - Sat: 10am - 8pm</p>
-            <p className="text-lg text-gray-800">Sun: Closed</p>
-          </div>
-        </div>
-      </section>
+      {/* Store Info - Contact CTA */}
+      <section className="py-24 md:py-32 px-4">
+        <div className="container mx-auto max-w-4xl text-center">
+          <p className="section-subtitle text-bridal-clay-600 mb-4">Visit Us</p>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-bridal-charcoal-500 mb-8">
+            We'd Love to Meet You
+          </h2>
 
-      {/* Contact Us Section */}
-      <section className="py-16 md:py-20 px-4 bg-white">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-8 text-center">CONTACT US</h2>
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Contact Info */}
-            <div className="space-y-4">
-              <p className="text-gray-800">4801 N University Ave #120 Provo, UT 84604</p>
-              <p className="text-gray-800">
-                <a href="mailto:Allysesbridalandformal@gmail.com" className="hover:text-blue-600 transition">
-                  Allysesbridalandformal@gmail.com
-                </a>
+          <div className="grid md:grid-cols-2 gap-8 mb-12 text-left">
+            <div className="space-y-3">
+              <h3 className="text-sm font-sans font-medium tracking-widest uppercase text-bridal-charcoal-500 mb-3">
+                Location
+              </h3>
+              <p className="text-bridal-charcoal-400 font-sans">
+                4801 N University Ave #120<br />
+                Provo, UT 84604
               </p>
-              <p className="text-gray-800">
-                <a href="tel:8012240059" className="hover:text-blue-600 transition">
-                  (801) 224-0059
-                </a>
-              </p>
-
-              {/* Social Icons */}
-              <div className="flex gap-4 pt-4">
-                <a
-                  href="https://www.instagram.com/allyses_bridal/?hl=en"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-gray-900 transition"
-                  aria-label="Instagram"
-                >
-                  <Instagram className="h-6 w-6" />
-                </a>
-                <a
-                  href="https://www.facebook.com/AllysesBridalAndFormal/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-gray-900 transition"
-                  aria-label="Facebook"
-                >
-                  <Facebook className="h-6 w-6" />
-                </a>
-              </div>
+              <a
+                href="tel:8012240059"
+                className="block text-bridal-clay-600 hover:text-bridal-clay-700 font-sans font-medium transition-colors"
+              >
+                (801) 224-0059
+              </a>
             </div>
 
-            {/* Contact Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="text"
-                placeholder="Name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                className="input-field"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                className="input-field"
-              />
-              <input
-                type="tel"
-                placeholder="Phone"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="input-field"
-              />
-              <input
-                type="text"
-                placeholder="Address"
-                value={formData.address}
-                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                className="input-field"
-              />
-              <input
-                type="text"
-                placeholder="Subject"
-                value={formData.subject}
-                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                required
-                className="input-field"
-              />
-              <textarea
-                placeholder="Type your message here..."
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                required
-                rows={5}
-                className="input-field resize-none"
-              />
-              <button
-                type="submit"
-                disabled={formStatus === 'sending'}
-                className="w-full px-6 py-3 bg-black text-white hover:bg-gray-800 transition text-sm disabled:opacity-50 flex items-center justify-center gap-2"
-              >
-                {formStatus === 'sending' ? 'Sending...' : (
-                  <>
-                    <Send className="h-4 w-4" />
-                    Submit
-                  </>
-                )}
-              </button>
-              {formStatus === 'success' && (
-                <p className="text-green-600 text-sm text-center">Message sent successfully!</p>
-              )}
-              {formStatus === 'error' && (
-                <p className="text-red-600 text-sm text-center">Failed to send message. Please try again.</p>
-              )}
-            </form>
+            <div className="space-y-3">
+              <h3 className="text-sm font-sans font-medium tracking-widest uppercase text-bridal-charcoal-500 mb-3">
+                Hours
+              </h3>
+              <p className="text-bridal-charcoal-400 font-sans">
+                Monday - Saturday<br />
+                10:00 AM - 8:00 PM
+              </p>
+              <p className="text-bridal-charcoal-400 font-sans">
+                Sunday: Closed
+              </p>
+            </div>
           </div>
+
+          <Link to="/schedule-appointment" className="btn-primary inline-flex">
+            <span className="flex items-center gap-2">
+              <Calendar className="w-4 h-4" />
+              Schedule an Appointment
+            </span>
+          </Link>
         </div>
       </section>
     </div>
